@@ -25,42 +25,54 @@ button, input, select { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 img { display: block; max-width: 100%; }
 
-/* 工事現場の写真(空が透過)を敷き、上から濃紺を重ねて文字の可読性を確保する */
-.entry-stage { position: relative; overflow: hidden; min-height: 302px; padding: 0 24px 70px;
-  background:
-    linear-gradient(90deg, rgba(6,26,53,.62) 0%, rgba(6,26,53,.66) 28%, rgba(6,26,53,.88) 55%, rgba(6,26,53,.94) 100%),
-    url("./bg.webp") center 72% / cover no-repeat,
-    var(--navy-deep); }
-.entry-stage::before { content: ""; position: absolute; inset: 0; opacity: .09; background-image: linear-gradient(rgba(255,255,255,.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.2) 1px, transparent 1px); background-size: 34px 34px; }
-.stage-shell { width: min(1080px, 100%); margin: auto; position: relative; z-index: 1; }
-.stage-header { height: 66px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.16); }
-.brand { display: block; width: 108px; height: 48px; }
+/* 背景装飾を捨て、ビル写真と人物だけで施工管理らしさを短い面積に凝縮する */
+.entry-stage { position: relative; overflow: hidden; width: 100%; padding: 0; background: #f2f5f7; }
+.stage-shell { width: 100%; min-height: 300px; margin: 0; position: relative; z-index: 1; overflow: hidden; border-radius: 0; background:
+  linear-gradient(90deg, rgba(7,17,28,.82) 0%, rgba(10,23,36,.52) 48%, rgba(14,29,43,.04) 100%),
+  url("./not-transparent.webp") center 70% / cover no-repeat,
+  #192735; box-shadow: 0 14px 38px rgba(17,35,51,.12); }
+.stage-header { width: min(960px, calc(100% - 44px)); height: 44px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.16); position: relative; z-index: 5; }
+.brand { display: block; width: 88px; height: 36px; }
 /* ロゴは黒文字のため、濃紺のヘッダー上では白へノックアウトして表示する */
-.brand img { width: 108px; height: 48px; object-fit: contain; object-position: left center; filter: brightness(0) invert(1); }
+.brand img { width: 88px; height: 36px; object-fit: contain; object-position: left center; filter: brightness(0) invert(1); }
 .header-trust { display: flex; gap: 8px; color: #e6f3fc; font-size: .7rem; font-weight: 700; }
-.header-trust span { border: 1px solid rgba(255,255,255,.34); border-radius: 999px; padding: 3px 12px; background: rgba(255,255,255,.07); }
+.header-trust span { border: 1px solid rgba(255,255,255,.5); border-radius: 999px; padding: 3px 12px; background: rgba(7,26,45,.42); text-shadow: 0 1px 5px rgba(0,0,0,.3); }
 
-/* KVを右に置くぶん、コピーは左揃えにして右側に逃げ幅を確保する */
-.intro-panel { position: relative; z-index: 1; color: #fff; padding: 26px 0 8px; text-align: left; padding-left: clamp(200px, 30%, 330px); }
+/* 左のコピーと右の人物を非対称に置き、下の白い情報帯でフォームへつなぐ */
+.stage-body { width: min(920px, 100%); min-height: 174px; margin: auto; position: relative; }
+.intro-panel { position: relative; z-index: 3; color: #fff; padding: 12px 300px 7px 0; text-align: left; }
 .eyebrow { margin: 0 0 14px; color: #6dc8ef; font-size: .74rem; font-weight: 800; letter-spacing: .2em; line-height: 1.3; }
 .intro-panel h1, .section-heading h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .025em; line-height: 1.42; }
-.intro-panel h1 { font-size: clamp(1.9rem, 2.9vw, 2.6rem); }
-.intro-panel h1 em, .section-heading h2 em { color: #79d0f2; font-style: normal; }
-/* 「大手メーカーのキャリアへ。」を必ず改行して2行の見出しにする */
-.intro-panel h1 em { display: block; }
-.intro-copy { max-width: 620px; margin: 10px 0 14px; color: #d8e8f5; font-size: .88rem; line-height: 1.7; }
-.support-note { display: inline-block; margin: 0; padding: 6px 14px 6px 12px; border: 1px solid rgba(255,255,255,.26); border-radius: 999px; background: rgba(255,255,255,.06); color: #c9e4f3; font-size: .72rem; }
-.support-note span { color: #61d1ef; }
+.hero-expert { margin: 0 0 3px; display: flex; align-items: baseline; gap: 8px; color: #fff; font-family: var(--serif); font-size: 1.35rem; font-weight: 700; letter-spacing: .04em; line-height: 1.15; text-shadow: 0 2px 14px rgba(0,0,0,.36); }
+.hero-expert strong { font-size: 1.38em; }
+.hero-expert b { color: #7ed4ee; font-family: var(--sans); font-size: .82em; }
+.hero-expert span { font-size: 1.06em; }
+.intro-panel h1 { font-size: clamp(2.15rem, 3.4vw, 2.9rem); line-height: 1.12; text-shadow: 0 3px 22px rgba(0,0,0,.25); }
+.intro-panel h1 span, .intro-panel h1 em { display: block; }
+.intro-panel h1 span { font-size: .7em; letter-spacing: .05em; }
+.intro-panel h1 em { width: fit-content; position: relative; color: #fff; font-size: 1.22em; font-style: normal; letter-spacing: .05em; }
+.intro-panel h1 em::after { content: ""; position: absolute; left: 1px; right: -9px; bottom: 1px; height: 7px; z-index: -1; border-radius: 20px 2px 20px 3px; background: linear-gradient(90deg, #20a6de, #5134ad); transform: skewX(-13deg); opacity: .9; }
+.intro-panel h1 + .hero-sub { margin: 7px 0 0; }
+.intro-panel h1 em, .section-heading h2 em { color: #79d0f2; }
+.hero-sub { color: #e0ebf2; font-size: .7rem; line-height: 1.45; }
+.hero-sub strong { font-weight: 700; }
+.hero-benefit-panel { width: min(960px, calc(100% - 20px)); min-height: 62px; margin: 0 auto 10px; padding: 6px 10px; position: relative; z-index: 4; border-radius: 10px; background: rgba(250,253,255,.94); box-shadow: 0 10px 24px rgba(0,15,39,.18); }
+.hero-benefits { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); }
+.hero-benefits li { min-height: 40px; padding: 2px 13px; display: grid; align-content: center; border-left: 1px solid #e2ebf2; }
+.hero-benefits li:first-child { border-left: 0; }
+.hero-benefits span, .hero-benefits strong { display: block; line-height: 1.35; }
+.hero-benefits span { margin-bottom: 1px; color: #3387b5; font-size: .55rem; font-weight: 900; letter-spacing: .12em; }
+.hero-benefits strong { color: var(--navy); font-family: var(--serif); font-size: .88rem; }
 
-/* 人物は下端を切って立たせる。entry-stageのpadding-bottom(70px)を打ち消す。
+/* 人物は右側の空へ重ね、短いFVでも顔と上半身が残るように窓抜きする。
    kv.webpは8228x5485のキャンバスに対し被写体が(1753,1249)-(5222,5485)の3469x4236
    しかないため、画像は加工せずCSS側で被写体だけを窓抜きして表示する。
    画像を差し替えたときはこの4つの数値を入れ直す。 */
-.stage-kv { position: absolute; left: 0; bottom: -70px; z-index: 0; overflow: hidden;
-  width: clamp(220px, 29%, 340px); aspect-ratio: 3469 / 4236; pointer-events: none; user-select: none; }
+.stage-kv { position: absolute; right: 90px; bottom: -124px; z-index: 2; overflow: hidden;
+  width: 300px; aspect-ratio: 3469 / 4236; pointer-events: none; user-select: none; transform: scaleX(-1); }
 .stage-kv img { position: absolute; width: 237.19%; max-width: none; height: auto; left: -50.53%; top: -29.49%; }
 
-.form-zone { position: relative; padding: 0 24px 66px; background: none; }
+.form-zone { position: relative; padding: 30px 24px 66px; background: none; }
 /* 図面のトンボをワンポイントで散らす。フォームカード(z-index:2)の背面に置く */
 .form-zone::before {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .36;
@@ -69,7 +81,7 @@ img { display: block; max-width: 100%; }
   background-position: 7% 14%, 93% 22%, 4% 46%, 96% 58%, 11% 78%, 88% 90%;
   background-size: 46px, 30px, 24px, 38px, 28px, 34px;
 }
-.form-card { width: min(720px, 100%); min-height: 570px; margin: -38px auto 0; background: rgba(255,255,255,.99); border-radius: 18px; padding: 24px 32px 20px; box-shadow: var(--shadow); position: relative; z-index: 2; overflow: hidden; }
+.form-card { width: min(720px, 100%); min-height: 0; margin: 0 auto; background: rgba(255,255,255,.99); border-radius: 18px; padding: 24px 32px 20px; box-shadow: var(--shadow); position: relative; z-index: 2; overflow: hidden; }
 .form-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: linear-gradient(90deg, var(--cyan), var(--blue), var(--violet)); }
 .form-head { display: flex; justify-content: space-between; gap: 20px; align-items: flex-start; }
 .form-kicker { margin: 0 0 3px; color: var(--blue); font-size: .75rem; font-weight: 800; letter-spacing: .15em; }
@@ -98,6 +110,24 @@ legend small { margin-left: 8px; color: #798697; font-size: .7rem; font-weight: 
 .step { display: none; animation: stepIn .3s ease both; }
 .step.is-active { display: block; }
 @keyframes stepIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+
+/* STEP2へ進んだ瞬間に、求人データベースから候補が見つかった感覚をつくる */
+.match-result { position: relative; min-height: 86px; margin: 0 0 18px; padding: 14px 18px; overflow: hidden; display: flex; align-items: center; justify-content: space-between; border: 1px solid #b9dced; border-radius: 12px; background: linear-gradient(110deg, #edf9ff 0%, #f7fbff 58%, #f1efff 100%); box-shadow: 0 8px 24px rgba(20,86,143,.1); opacity: 0; transform: translateY(8px) scale(.985); }
+.match-result::before { content: ""; position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at 78% 52%, rgba(74,193,235,.17), transparent 31%); }
+.match-result.is-revealed { animation: resultReveal .46s cubic-bezier(.2,.78,.2,1) forwards; }
+.match-result__copy, .match-result__count { position: relative; z-index: 1; }
+.match-result__copy > span { display: flex; align-items: center; gap: 5px; color: #39728f; font-size: .68rem; font-weight: 800; }
+.match-result__copy i { width: 17px; height: 17px; display: grid; place-items: center; border-radius: 50%; background: #d7f3ff; color: var(--blue); font-size: .58rem; font-style: normal; }
+.match-result__copy p { margin: 4px 0 0; color: var(--navy); font-family: var(--serif); font-size: 1.02rem; font-weight: 700; letter-spacing: .05em; }
+.match-result__count { display: flex; align-items: baseline; color: var(--navy); line-height: 1; text-shadow: 0 5px 18px rgba(20,100,173,.12); }
+.match-result__count b { min-width: 3ch; color: #126cb0; font-family: var(--serif); font-size: 2.45rem; font-weight: 700; letter-spacing: -.04em; text-align: right; }
+.match-result__count small { margin-left: 4px; font-size: .88rem; }
+.match-result.is-complete .match-result__count { animation: resultPulse .42s cubic-bezier(.2,.8,.2,1); }
+.match-result__beam { position: absolute; inset: 0 auto 0 -35%; width: 24%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.82), transparent); transform: skewX(-18deg); opacity: 0; }
+.match-result.is-complete .match-result__beam { animation: resultSweep .72s ease-out; }
+@keyframes resultReveal { to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes resultPulse { 45% { transform: scale(1.075); } }
+@keyframes resultSweep { 0% { left: -35%; opacity: 0; } 20% { opacity: 1; } 100% { left: 118%; opacity: 0; } }
 
 .field-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 18px; }
 .field-stack { display: grid; gap: 13px; margin-top: 15px; }
@@ -185,18 +215,30 @@ footer p { margin: 0; }
 
 @media (max-width: 700px) {
   body { font-size: 16px; }
-  .entry-stage { min-height: 0; padding: 0 15px 46px; }
-  .stage-header { height: 54px; }
-  .brand, .brand img { width: 91px; height: 41px; }
-  .header-trust span { padding: 2px 9px; font-size: .63rem; }
-  /* 見出しは人物より上に来るので全幅のまま。人物と高さが重なる本文だけ右を空ける */
-  .intro-panel { padding: 12px 0 6px; padding-right: 0; }
+  .entry-stage { min-height: 0; padding: 0; background: #f2f5f7; }
+  .stage-shell { width: 100%; min-height: 0; aspect-ratio: 15 / 8; border-radius: 0; box-shadow: none; }
+  .stage-header { width: calc(100% - 20px); height: 30px; margin: 0 10px; }
+  .brand, .brand img { width: 54px; height: 24px; }
+  .header-trust span { padding: 1px 6px; font-size: .43rem; }
+  .stage-body { width: 100%; min-height: 121px; }
+  .intro-panel { padding: 5px 138px 2px 11px; }
   .eyebrow { margin-bottom: 7px; font-size: .58rem; }
-  .intro-panel h1 { font-size: 1.44rem; line-height: 1.5; }
-  .intro-copy { margin: 6px 0 10px; padding-left: 104px; font-size: .72rem; line-height: 1.6; }
-  .support-note { margin-left: 104px; max-width: calc(100% - 104px); padding: 5px 11px; font-size: .6rem; line-height: 1.5; }
-  .stage-kv { width: 116px; left: -4px; bottom: -46px; }
-  .form-zone { padding: 0 12px 43px; }
+  .hero-expert { margin-bottom: 2px; gap: 4px; font-size: 1rem; letter-spacing: .01em; }
+  .hero-expert strong { font-size: 1.55em; }
+  .hero-expert b { font-size: .72em; }
+  .hero-expert span { font-size: .82em; }
+  .intro-panel h1 { font-size: 1.48rem; line-height: 1.05; }
+  .intro-panel h1 span { font-size: .67em; }
+  .intro-panel h1 em { font-size: 1.16em; letter-spacing: .02em; }
+  .intro-panel h1 em::after { height: 5px; bottom: 0; }
+  .intro-panel h1 + .hero-sub { margin-top: 3px; font-size: .41rem; line-height: 1.3; }
+  .hero-benefit-panel { min-height: 43px; margin: 0 4px 4px; padding: 3px 2px; display: block; border-radius: 6px; }
+  .hero-benefits li { min-height: 37px; padding: 1px 4px; text-align: center; }
+  .hero-benefits span { font-size: .37rem; }
+  .hero-benefits strong { font-size: .53rem; }
+  .stage-kv { width: 180px; right: -5px; left: auto; bottom: -56px; }
+  .stage-kv img { top: -18%; }
+  .form-zone { padding: 12px 12px 43px; }
   /* スマホではフォームカードが全幅になり左右にトンボを置けないため、
      カード下の帯・見出し周り・右端の余白へ配置し直す。
      フォーム下は3個に絞り、横位置・高さ・大きさをばらして並びに見せない */
@@ -216,13 +258,18 @@ footer p { margin: 0; }
     background-position: 5% 22%, 95% 28%, 13% 80%, 87% 86%, 50% 6%;
     background-size: 26px, 20px, 18px, 24px, 16px;
   }
-  .form-card { min-height: 0; margin: -25px auto 0; padding: 20px 16px 16px; border-radius: 14px; }
+  .form-card { min-height: 0; margin: 0 auto; padding: 20px 16px 16px; border-radius: 14px; }
   .form-head h2 { font-size: 1.25rem; }
   .time-badge { width: 51px; height: 51px; flex-basis: 51px; }
   .progress-wrap { margin: 14px 0 17px; }
   .choice-grid--two { gap: 7px; }
   .choice span { min-height: 50px; padding: 9px 30px 9px 10px; font-size: .75rem; }
   .choice span::after { right: 9px; width: 17px; height: 17px; }
+  .match-result { min-height: 76px; margin-bottom: 16px; padding: 11px 13px; border-radius: 10px; }
+  .match-result__copy > span { font-size: .6rem; }
+  .match-result__copy p { margin-top: 3px; font-size: .92rem; }
+  .match-result__count b { font-size: 2.1rem; }
+  .match-result__count small { font-size: .75rem; }
   .form-actions { position: sticky; bottom: 8px; z-index: 2; }
   .next-button, .back-button { min-height: 50px; }
   .back-button { width: 74px; }

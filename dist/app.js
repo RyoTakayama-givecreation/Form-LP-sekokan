@@ -11,7 +11,40 @@
   const progressBar = document.getElementById("progressBar");
   const completeState = document.getElementById("completeState");
   const resetButton = document.getElementById("resetButton");
+  const matchResult = document.getElementById("matchResult");
+  const jobMatchCount = document.getElementById("jobMatchCount");
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let currentStep = 0;
+  let previousStep = -1;
+  let matchAnimationFrame = 0;
+
+  function animateMatchCount() {
+    cancelAnimationFrame(matchAnimationFrame);
+    matchResult.classList.remove("is-revealed", "is-complete");
+    jobMatchCount.textContent = reduceMotion ? "960" : "0";
+
+    requestAnimationFrame(function () {
+      matchResult.classList.add("is-revealed");
+      if (reduceMotion) {
+        matchResult.classList.add("is-complete");
+        return;
+      }
+
+      const startedAt = performance.now();
+      const duration = 920;
+      function count(now) {
+        const progress = Math.min((now - startedAt) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 4);
+        jobMatchCount.textContent = String(Math.round(960 * eased));
+        if (progress < 1) {
+          matchAnimationFrame = requestAnimationFrame(count);
+          return;
+        }
+        matchResult.classList.add("is-complete");
+      }
+      matchAnimationFrame = requestAnimationFrame(count);
+    });
+  }
 
   function stepIsValid() {
     const active = steps[currentStep];
@@ -29,6 +62,8 @@
     backButton.classList.toggle("is-visible", currentStep > 0);
     nextLabel.textContent = currentStep === steps.length - 1 ? "無料で求人を紹介してもらう" : "次へ進む";
     nextButton.disabled = !stepIsValid();
+    if (currentStep === 1 && previousStep !== 1) animateMatchCount();
+    previousStep = currentStep;
   }
 
   form.addEventListener("change", renderStep);
