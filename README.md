@@ -6,9 +6,10 @@
 
 ```
 dist/
-  index.html   LP本体（5ステップのフォーム）
+  index.html      LP本体（5ステップのフォーム）
   styles.css
-  app.js       ステップ遷移・企業ロゴスライダー
+  app.js          ステップ遷移・企業ロゴスライダー
+  background.svg  図面のトンボを模した方眼（FVと下部CTA帯の背景）
 kyujin/        取引企業ロゴ（LPから参照）
 logo-transparent.png  GIVE CREATION ロゴ（透過PNG／LPから参照）
 logo.jpg              ロゴ原本（白背景JPEG・LPからは未参照）
