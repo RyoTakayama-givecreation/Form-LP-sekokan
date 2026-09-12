@@ -25,9 +25,13 @@ button, input, select { font: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
 img { display: block; max-width: 100%; }
 
-.entry-stage { position: relative; overflow: hidden; min-height: 302px; padding: 0 24px 70px; background: var(--navy-deep); }
-.entry-stage::before { content: ""; position: absolute; inset: 0; opacity: .16; background-image: linear-gradient(rgba(255,255,255,.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.2) 1px, transparent 1px); background-size: 34px 34px; }
-.entry-stage::after { content: ""; position: absolute; left: -14%; top: -40%; width: 58%; height: 145%; background: linear-gradient(215deg, rgba(25,153,217,.6), rgba(42,74,165,.22)); transform: skewX(13deg); border-right: 1px solid rgba(255,255,255,.28); }
+/* 工事現場の写真(空が透過)を敷き、上から濃紺を重ねて文字の可読性を確保する */
+.entry-stage { position: relative; overflow: hidden; min-height: 302px; padding: 0 24px 70px;
+  background:
+    linear-gradient(90deg, rgba(6,26,53,.62) 0%, rgba(6,26,53,.66) 28%, rgba(6,26,53,.88) 55%, rgba(6,26,53,.94) 100%),
+    url("./bg.png") center 72% / cover no-repeat,
+    var(--navy-deep); }
+.entry-stage::before { content: ""; position: absolute; inset: 0; opacity: .09; background-image: linear-gradient(rgba(255,255,255,.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.2) 1px, transparent 1px); background-size: 34px 34px; }
 .stage-shell { width: min(1080px, 100%); margin: auto; position: relative; z-index: 1; }
 .stage-header { height: 66px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.16); }
 .brand { display: block; width: 108px; height: 48px; }
@@ -182,7 +186,6 @@ footer p { margin: 0; }
 @media (max-width: 700px) {
   body { font-size: 16px; }
   .entry-stage { min-height: 0; padding: 0 15px 46px; }
-  .entry-stage::after { left: -48%; top: -20%; width: 110%; height: 120%; }
   .stage-header { height: 54px; }
   .brand, .brand img { width: 91px; height: 41px; }
   .header-trust span { padding: 2px 9px; font-size: .63rem; }
