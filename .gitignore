@@ -12,3 +12,6 @@ kyujin/seibu.png
 
 # macOS
 .DS_Store
+
+# KVの原本(8228x5485/13MB)。配信用は dist/kv.webp
+kv-original.png

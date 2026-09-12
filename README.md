@@ -10,6 +10,7 @@ dist/
   styles.css
   app.js          ステップ遷移・企業ロゴスライダー
   background.svg  図面のトンボ（フォーム背景のワンポイント装飾）
+  kv.webp         FVの人物写真（透過・900x1099 / 85KB）
 kyujin/        取引企業ロゴ（LPから参照）
 logo-transparent.png  GIVE CREATION ロゴ（透過PNG／LPから参照）
 logo.jpg              ロゴ原本（白背景JPEG・LPからは未参照）
@@ -39,6 +40,12 @@ python3 -m http.server 8000
 | 5 | 求人のご案内先を入力してください |
 
 現状フロントエンドのみで、送信先は未接続です。
+
+## FVの人物写真
+
+`dist/kv.webp` は原本 `kv-original.png`（8228x5485 / 13MB・透過PNG）を
+被写体でトリミングし、900px幅のWebPへ変換したもの（85KB）。
+原本はリポジトリに含めていない。差し替える場合は同じ手順で軽量化すること。
 
 ## リポジトリに含めていないもの
 
