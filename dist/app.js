@@ -97,22 +97,97 @@
   });
 
   const slider = document.getElementById("jobSlider");
-  const cards = Array.from(slider.querySelectorAll(".job-card"));
-  const currentCounter = document.getElementById("slideCurrent");
-  function cardStep() { return cards[0].getBoundingClientRect().width + 16; }
-  function updateCounter() {
-    const index = Math.max(0, Math.min(cards.length - 1, Math.round(slider.scrollLeft / cardStep())));
-    currentCounter.textContent = String(index + 1).padStart(2, "0");
+  const originalCards = Array.from(slider.querySelectorAll(".job-card"));
+  const beforeCards = document.createDocumentFragment();
+  const afterCards = document.createDocumentFragment();
+  originalCards.forEach(function (card) {
+    const before = card.cloneNode(true);
+    const after = card.cloneNode(true);
+    before.setAttribute("aria-hidden", "true");
+    after.setAttribute("aria-hidden", "true");
+    beforeCards.appendChild(before);
+    afterCards.appendChild(after);
+  });
+  slider.insertBefore(beforeCards, slider.firstChild);
+  slider.appendChild(afterCards);
+
+  let loopWidth = 0;
+  let autoFrame = 0;
+  let previousTime = 0;
+  let interactionPaused = false;
+  let resumeTimer = 0;
+  let isDragging = false;
+  let dragStartX = 0;
+  let dragStartScroll = 0;
+
+  function measureSlider() {
+    loopWidth = originalCards[0].offsetLeft - slider.firstElementChild.offsetLeft;
+    slider.scrollLeft = loopWidth;
   }
-  document.getElementById("prevJob").addEventListener("click", () => slider.scrollBy({ left: -cardStep(), behavior: "smooth" }));
-  document.getElementById("nextJob").addEventListener("click", () => slider.scrollBy({ left: cardStep(), behavior: "smooth" }));
-  slider.addEventListener("scroll", updateCounter, { passive: true });
+
+  function normalizeSlider() {
+    if (!loopWidth) return;
+    if (slider.scrollLeft < loopWidth * .35) slider.scrollLeft += loopWidth;
+    if (slider.scrollLeft > loopWidth * 1.65) slider.scrollLeft -= loopWidth;
+  }
+
+  function pauseForInteraction() {
+    interactionPaused = true;
+    window.clearTimeout(resumeTimer);
+    resumeTimer = window.setTimeout(function () {
+      interactionPaused = false;
+    }, 100);
+  }
+
+  function moveSlider(now) {
+    const elapsed = Math.min(now - previousTime, 40);
+    previousTime = now;
+    if (!reduceMotion && !interactionPaused && !isDragging && document.visibilityState === "visible" && loopWidth) {
+      slider.scrollLeft += elapsed * .03;
+      normalizeSlider();
+    }
+    autoFrame = requestAnimationFrame(moveSlider);
+  }
+
+  slider.addEventListener("scroll", normalizeSlider, { passive: true });
+  slider.addEventListener("pointerdown", function (event) {
+    pauseForInteraction();
+    if (event.pointerType !== "mouse") return;
+    isDragging = true;
+    dragStartX = event.clientX;
+    dragStartScroll = slider.scrollLeft;
+    slider.setPointerCapture(event.pointerId);
+  });
+  slider.addEventListener("pointermove", function (event) {
+    if (!isDragging) return;
+    slider.scrollLeft = dragStartScroll - (event.clientX - dragStartX);
+  });
+  slider.addEventListener("pointerup", function () {
+    isDragging = false;
+    pauseForInteraction();
+  });
+  slider.addEventListener("pointercancel", function () {
+    isDragging = false;
+    pauseForInteraction();
+  });
+  slider.addEventListener("touchstart", pauseForInteraction, { passive: true });
+  slider.addEventListener("wheel", pauseForInteraction, { passive: true });
   slider.addEventListener("keydown", function (event) {
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
       event.preventDefault();
-      slider.scrollBy({ left: event.key === "ArrowRight" ? cardStep() : -cardStep(), behavior: "smooth" });
+      pauseForInteraction();
+      slider.scrollBy({ left: event.key === "ArrowRight" ? slider.clientWidth * .7 : -slider.clientWidth * .7, behavior: "smooth" });
     }
   });
+  slider.addEventListener("focusin", pauseForInteraction);
+  slider.addEventListener("focusout", pauseForInteraction);
+
+  requestAnimationFrame(function () {
+    measureSlider();
+    previousTime = performance.now();
+    autoFrame = requestAnimationFrame(moveSlider);
+  });
+  window.addEventListener("resize", measureSlider);
 
   renderStep();
 })();
