@@ -113,6 +113,7 @@
 
   let loopWidth = 0;
   let autoFrame = 0;
+  let autoPosition = 0;
   let previousTime = 0;
   let interactionPaused = false;
   let resumeTimer = 0;
@@ -123,16 +124,24 @@
   function measureSlider() {
     loopWidth = originalCards[0].offsetLeft - slider.firstElementChild.offsetLeft;
     slider.scrollLeft = loopWidth;
+    autoPosition = loopWidth;
   }
 
   function normalizeSlider() {
     if (!loopWidth) return;
-    if (slider.scrollLeft < loopWidth * .35) slider.scrollLeft += loopWidth;
-    if (slider.scrollLeft > loopWidth * 1.65) slider.scrollLeft -= loopWidth;
+    if (slider.scrollLeft < loopWidth * .35) {
+      slider.scrollLeft += loopWidth;
+      autoPosition += loopWidth;
+    }
+    if (slider.scrollLeft > loopWidth * 1.65) {
+      slider.scrollLeft -= loopWidth;
+      autoPosition -= loopWidth;
+    }
   }
 
   function pauseForInteraction() {
     interactionPaused = true;
+    autoPosition = slider.scrollLeft;
     window.clearTimeout(resumeTimer);
     resumeTimer = window.setTimeout(function () {
       interactionPaused = false;
@@ -142,18 +151,22 @@
   function moveSlider(now) {
     const elapsed = Math.min(now - previousTime, 40);
     previousTime = now;
-    if (!reduceMotion && !interactionPaused && !isDragging && document.visibilityState === "visible" && loopWidth) {
-      slider.scrollLeft += elapsed * .03;
+    if (!interactionPaused && !isDragging && document.visibilityState === "visible" && loopWidth) {
+      autoPosition += elapsed * .03;
+      slider.scrollLeft = autoPosition;
       normalizeSlider();
     }
     autoFrame = requestAnimationFrame(moveSlider);
   }
 
-  slider.addEventListener("scroll", normalizeSlider, { passive: true });
+  slider.addEventListener("scroll", function () {
+    normalizeSlider();
+    if (interactionPaused || isDragging) autoPosition = slider.scrollLeft;
+  }, { passive: true });
   slider.addEventListener("pointerdown", function (event) {
     pauseForInteraction();
-    if (event.pointerType !== "mouse") return;
     isDragging = true;
+    if (event.pointerType !== "mouse") return;
     dragStartX = event.clientX;
     dragStartScroll = slider.scrollLeft;
     slider.setPointerCapture(event.pointerId);
@@ -161,6 +174,7 @@
   slider.addEventListener("pointermove", function (event) {
     if (!isDragging) return;
     slider.scrollLeft = dragStartScroll - (event.clientX - dragStartX);
+    autoPosition = slider.scrollLeft;
   });
   slider.addEventListener("pointerup", function () {
     isDragging = false;
@@ -170,7 +184,18 @@
     isDragging = false;
     pauseForInteraction();
   });
-  slider.addEventListener("touchstart", pauseForInteraction, { passive: true });
+  slider.addEventListener("touchstart", function () {
+    isDragging = true;
+    pauseForInteraction();
+  }, { passive: true });
+  slider.addEventListener("touchend", function () {
+    isDragging = false;
+    pauseForInteraction();
+  }, { passive: true });
+  slider.addEventListener("touchcancel", function () {
+    isDragging = false;
+    pauseForInteraction();
+  }, { passive: true });
   slider.addEventListener("wheel", pauseForInteraction, { passive: true });
   slider.addEventListener("keydown", function (event) {
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
