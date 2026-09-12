@@ -55,10 +55,10 @@ img { display: block; max-width: 100%; }
 /* 図面のトンボをワンポイントで散らす。フォームカード(z-index:2)の背面に置く */
 .form-zone::before {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .36;
-  background-image: url("./background.svg"), url("./background.svg"), url("./background.svg");
+  background-image: url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg");
   background-repeat: no-repeat;
-  background-position: 7% 18%, 93% 30%, 11% 72%;
-  background-size: 46px, 30px, 26px;
+  background-position: 7% 14%, 93% 22%, 4% 46%, 96% 58%, 11% 78%, 88% 90%;
+  background-size: 46px, 30px, 24px, 38px, 28px, 34px;
 }
 .form-card { width: min(720px, 100%); min-height: 570px; margin: -38px auto 0; background: rgba(255,255,255,.99); border-radius: 18px; padding: 24px 32px 20px; box-shadow: var(--shadow); position: relative; z-index: 2; overflow: hidden; }
 .form-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 4px; background: linear-gradient(90deg, var(--cyan), var(--blue), var(--violet)); }
@@ -118,10 +118,10 @@ legend small { margin-left: 8px; color: #798697; font-size: .7rem; font-weight: 
 .jobs-section { position: relative; padding: 78px 24px 66px; overflow: hidden; background: none; }
 .jobs-section::before {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .34;
-  background-image: url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg");
+  background-image: url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg");
   background-repeat: no-repeat;
-  background-position: 4% 10%, 95% 20%, 8% 55%, 92% 66%, 50% 95%;
-  background-size: 34px, 44px, 24px, 30px, 40px;
+  background-position: 4% 8%, 95% 14%, 9% 30%, 91% 38%, 3% 54%, 97% 60%, 12% 76%, 88% 84%, 50% 96%;
+  background-size: 34px, 44px, 22px, 28px, 40px, 24px, 32px, 26px, 38px;
 }
 .jobs-section > * { position: relative; z-index: 1; }
 .section-heading { width: min(1180px, 100%); margin: 0 auto 34px; display: grid; grid-template-columns: 1fr .8fr; gap: 70px; align-items: end; }
@@ -161,10 +161,10 @@ legend small { margin-left: 8px; color: #798697; font-size: .7rem; font-weight: 
 footer { position: relative; min-height: 95px; padding: 20px 24px; display: flex; align-items: center; justify-content: center; gap: 30px; background: none; color: #44596d; font-size: .7rem; }
 footer::before {
   content: ""; position: absolute; inset: 0; z-index: 0; pointer-events: none; opacity: .32;
-  background-image: url("./background.svg"), url("./background.svg");
+  background-image: url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg"), url("./background.svg");
   background-repeat: no-repeat;
-  background-position: 6% 40%, 94% 60%;
-  background-size: 36px, 26px;
+  background-position: 6% 28%, 94% 34%, 16% 72%, 84% 78%, 50% 18%;
+  background-size: 36px, 26px, 22px, 30px, 20px;
 }
 footer > * { position: relative; z-index: 1; }
 footer img { width: 92px; height: 48px; object-fit: contain; }
@@ -194,6 +194,23 @@ footer p { margin: 0; }
   .intro-points span { font-size: .58rem; }
   .support-note { display: none; }
   .form-zone { padding: 0 12px 43px; }
+  /* スマホではフォームカードが全幅になり左右にトンボを置けないため、
+     カード下の帯・見出し周り・右端の余白へ配置し直す（レイヤ数は同じ） */
+  .form-zone::before {
+    opacity: .42;
+    background-position: 8% 97%, 27% 100%, 46% 96%, 64% 100%, 82% 97%, 96% 99%;
+    background-size: 24px, 16px, 28px, 18px, 22px, 14px;
+  }
+  .jobs-section::before {
+    opacity: .4;
+    background-position: 5% 4%, 93% 7%, 3% 19%, 97% 25%, 7% 46%, 96% 52%, 4% 88%, 92% 92%, 50% 97%;
+    background-size: 26px, 32px, 20px, 24px, 28px, 22px, 30px, 18px, 26px;
+  }
+  footer::before {
+    opacity: .38;
+    background-position: 5% 22%, 95% 28%, 13% 80%, 87% 86%, 50% 6%;
+    background-size: 26px, 20px, 18px, 24px, 16px;
+  }
   .form-card { min-height: 0; margin: -25px auto 0; padding: 20px 16px 16px; border-radius: 14px; }
   .form-head h2 { font-size: 1.25rem; }
   .time-badge { width: 51px; height: 51px; flex-basis: 51px; }
