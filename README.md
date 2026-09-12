@@ -10,12 +10,13 @@ dist/
   styles.css
   app.js       ステップ遷移・企業ロゴスライダー
 kyujin/        取引企業ロゴ（LPから参照）
-logo.jpg       GIVE CREATION ロゴ（LPから参照）
+logo-transparent.png  GIVE CREATION ロゴ（透過PNG／LPから参照）
+logo.jpg              ロゴ原本（白背景JPEG・LPからは未参照）
 ```
 
 ## ローカルで確認する
 
-`dist/index.html` はリポジトリルートの `logo.jpg` と `kyujin/` を `../` で参照しているため、
+`dist/index.html` はリポジトリルートの `logo-transparent.png` と `kyujin/` を `../` で参照しているため、
 **`dist/` 単体ではなくリポジトリルートから配信する**必要があります。
 
 ```sh

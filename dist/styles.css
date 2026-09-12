@@ -27,8 +27,9 @@ img { display: block; max-width: 100%; }
 .entry-stage::after { content: ""; position: absolute; right: -14%; top: -40%; width: 58%; height: 145%; background: linear-gradient(145deg, rgba(25,153,217,.6), rgba(42,74,165,.22)); transform: skewX(-13deg); border-left: 1px solid rgba(255,255,255,.28); }
 .stage-shell { width: min(1080px, 100%); margin: auto; position: relative; z-index: 1; }
 .stage-header { height: 66px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.16); }
-.brand { display: block; width: 108px; height: 48px; overflow: hidden; border-radius: 3px; background: #fff; }
-.brand img { width: 108px; height: 48px; object-fit: cover; object-position: center; }
+.brand { display: block; width: 108px; height: 48px; }
+/* ロゴは黒文字のため、濃紺のヘッダー上では白へノックアウトして表示する */
+.brand img { width: 108px; height: 48px; object-fit: contain; object-position: left center; filter: brightness(0) invert(1); }
 .header-trust { display: flex; gap: 8px; color: #e6f3fc; font-size: .7rem; font-weight: 700; }
 .header-trust span { border: 1px solid rgba(255,255,255,.34); border-radius: 999px; padding: 3px 12px; background: rgba(255,255,255,.07); }
 
@@ -139,7 +140,7 @@ legend small { margin-left: 8px; color: #798697; font-size: .7rem; font-weight: 
 .closing-band a { min-width: 290px; padding: 13px 24px; border-radius: 999px; color: #fff; background: linear-gradient(105deg, var(--cyan), #2e64b8, var(--violet)); text-align: center; text-decoration: none; font-weight: 800; box-shadow: 0 8px 22px rgba(0,0,0,.2); }
 
 footer { min-height: 95px; padding: 20px 24px; display: flex; align-items: center; justify-content: center; gap: 30px; background: #fff; color: #78838e; font-size: .7rem; }
-footer img { width: 92px; height: 48px; object-fit: cover; }
+footer img { width: 92px; height: 48px; object-fit: contain; }
 footer p { margin: 0; }
 
 @media (max-width: 920px) {
