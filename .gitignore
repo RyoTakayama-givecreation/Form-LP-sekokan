@@ -1,0 +1,14 @@
+# 競合サイトのローカルミラー（調査用・他社著作物のため非公開）
+competition/
+
+# 社内向け成果物
+outputs/
+
+# 求人票の原文（LPからは参照していない）
+kyujin/*.txt
+
+# LPで未使用の素材
+kyujin/seibu.png
+
+# macOS
+.DS_Store
