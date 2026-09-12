@@ -29,7 +29,7 @@ img { display: block; max-width: 100%; }
 .entry-stage { position: relative; overflow: hidden; min-height: 302px; padding: 0 24px 70px;
   background:
     linear-gradient(90deg, rgba(6,26,53,.62) 0%, rgba(6,26,53,.66) 28%, rgba(6,26,53,.88) 55%, rgba(6,26,53,.94) 100%),
-    url("./bg.png") center 72% / cover no-repeat,
+    url("./bg.webp") center 72% / cover no-repeat,
     var(--navy-deep); }
 .entry-stage::before { content: ""; position: absolute; inset: 0; opacity: .09; background-image: linear-gradient(rgba(255,255,255,.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.2) 1px, transparent 1px); background-size: 34px 34px; }
 .stage-shell { width: min(1080px, 100%); margin: auto; position: relative; z-index: 1; }
@@ -53,7 +53,7 @@ img { display: block; max-width: 100%; }
 .support-note span { color: #61d1ef; }
 
 /* 人物は下端を切って立たせる。entry-stageのpadding-bottom(70px)を打ち消す。
-   kv.pngは8228x5485のキャンバスに対し被写体が(1753,1249)-(5222,5485)の3469x4236
+   kv.webpは8228x5485のキャンバスに対し被写体が(1753,1249)-(5222,5485)の3469x4236
    しかないため、画像は加工せずCSS側で被写体だけを窓抜きして表示する。
    画像を差し替えたときはこの4つの数値を入れ直す。 */
 .stage-kv { position: absolute; left: 0; bottom: -70px; z-index: 0; overflow: hidden;
