@@ -10,7 +10,7 @@ dist/
   styles.css
   app.js          ステップ遷移・企業ロゴスライダー
   background.svg  図面のトンボ（フォーム背景のワンポイント装飾）
-  kv.webp         FVの人物写真（透過・900x1099 / 85KB）
+  kv.png          FVの人物写真（透過・8228x5485）
 kyujin/        取引企業ロゴ（LPから参照）
 logo-transparent.png  GIVE CREATION ロゴ（透過PNG／LPから参照）
 logo.jpg              ロゴ原本（白背景JPEG・LPからは未参照）
@@ -43,9 +43,14 @@ python3 -m http.server 8000
 
 ## FVの人物写真
 
-`dist/kv.webp` は原本 `kv-original.png`（8228x5485 / 13MB・透過PNG）を
-被写体でトリミングし、900px幅のWebPへ変換したもの（85KB）。
-原本はリポジトリに含めていない。差し替える場合は同じ手順で軽量化すること。
+`dist/kv.png` は支給された原寸の透過PNG（8228x5485 / 13MB）をそのまま配信している。
+
+被写体はキャンバス全体ではなく `(1753, 1249)-(5222, 5485)` の 3469x4236 だけで、
+周囲は透明の余白。そのまま置くと被写体が小さくなるため、画像には手を加えず
+`.stage-kv` 側で窓抜きして被写体だけを表示している（`styles.css` 参照）。
+
+**画像を差し替えたら** `.stage-kv` と `.stage-kv img` の4つの数値
+（`aspect-ratio` / `width` / `left` / `top`）を新しい被写体の bbox で計算し直すこと。
 
 ## リポジトリに含めていないもの
 

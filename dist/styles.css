@@ -27,7 +27,7 @@ img { display: block; max-width: 100%; }
 
 .entry-stage { position: relative; overflow: hidden; min-height: 302px; padding: 0 24px 70px; background: var(--navy-deep); }
 .entry-stage::before { content: ""; position: absolute; inset: 0; opacity: .16; background-image: linear-gradient(rgba(255,255,255,.2) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.2) 1px, transparent 1px); background-size: 34px 34px; }
-.entry-stage::after { content: ""; position: absolute; right: -14%; top: -40%; width: 58%; height: 145%; background: linear-gradient(145deg, rgba(25,153,217,.6), rgba(42,74,165,.22)); transform: skewX(-13deg); border-left: 1px solid rgba(255,255,255,.28); }
+.entry-stage::after { content: ""; position: absolute; left: -14%; top: -40%; width: 58%; height: 145%; background: linear-gradient(215deg, rgba(25,153,217,.6), rgba(42,74,165,.22)); transform: skewX(13deg); border-right: 1px solid rgba(255,255,255,.28); }
 .stage-shell { width: min(1080px, 100%); margin: auto; position: relative; z-index: 1; }
 .stage-header { height: 66px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.16); }
 .brand { display: block; width: 108px; height: 48px; }
@@ -37,7 +37,7 @@ img { display: block; max-width: 100%; }
 .header-trust span { border: 1px solid rgba(255,255,255,.34); border-radius: 999px; padding: 3px 12px; background: rgba(255,255,255,.07); }
 
 /* KVを右に置くぶん、コピーは左揃えにして右側に逃げ幅を確保する */
-.intro-panel { position: relative; z-index: 1; color: #fff; padding: 26px 0 8px; text-align: left; padding-right: clamp(200px, 30%, 330px); }
+.intro-panel { position: relative; z-index: 1; color: #fff; padding: 26px 0 8px; text-align: left; padding-left: clamp(200px, 30%, 330px); }
 .eyebrow { margin: 0 0 14px; color: #6dc8ef; font-size: .74rem; font-weight: 800; letter-spacing: .2em; line-height: 1.3; }
 .intro-panel h1, .section-heading h2 { margin: 0; font-family: var(--serif); font-weight: 600; letter-spacing: .025em; line-height: 1.42; }
 .intro-panel h1 { font-size: clamp(1.9rem, 2.9vw, 2.6rem); }
@@ -48,9 +48,13 @@ img { display: block; max-width: 100%; }
 .support-note { display: inline-block; margin: 0; padding: 6px 14px 6px 12px; border: 1px solid rgba(255,255,255,.26); border-radius: 999px; background: rgba(255,255,255,.06); color: #c9e4f3; font-size: .72rem; }
 .support-note span { color: #61d1ef; }
 
-/* 人物は下端を切って立たせる。entry-stageのpadding-bottom(70px)を打ち消す */
-.stage-kv { position: absolute; right: 0; bottom: -70px; z-index: 0; width: clamp(196px, 26%, 300px); pointer-events: none; user-select: none; }
-.stage-kv img { width: 100%; height: auto; filter: drop-shadow(0 18px 40px rgba(0,0,0,.35)); }
+/* 人物は下端を切って立たせる。entry-stageのpadding-bottom(70px)を打ち消す。
+   kv.pngは8228x5485のキャンバスに対し被写体が(1753,1249)-(5222,5485)の3469x4236
+   しかないため、画像は加工せずCSS側で被写体だけを窓抜きして表示する。
+   画像を差し替えたときはこの4つの数値を入れ直す。 */
+.stage-kv { position: absolute; left: 0; bottom: -70px; z-index: 0; overflow: hidden;
+  width: clamp(220px, 29%, 340px); aspect-ratio: 3469 / 4236; pointer-events: none; user-select: none; }
+.stage-kv img { position: absolute; width: 237.19%; max-width: none; height: auto; left: -50.53%; top: -29.49%; }
 
 .form-zone { position: relative; padding: 0 24px 66px; background: none; }
 /* 図面のトンボをワンポイントで散らす。フォームカード(z-index:2)の背面に置く */
@@ -178,7 +182,7 @@ footer p { margin: 0; }
 @media (max-width: 700px) {
   body { font-size: 16px; }
   .entry-stage { min-height: 0; padding: 0 15px 46px; }
-  .entry-stage::after { right: -48%; top: -20%; width: 110%; height: 120%; }
+  .entry-stage::after { left: -48%; top: -20%; width: 110%; height: 120%; }
   .stage-header { height: 54px; }
   .brand, .brand img { width: 91px; height: 41px; }
   .header-trust span { padding: 2px 9px; font-size: .63rem; }
@@ -186,9 +190,9 @@ footer p { margin: 0; }
   .intro-panel { padding: 12px 0 6px; padding-right: 0; }
   .eyebrow { margin-bottom: 7px; font-size: .58rem; }
   .intro-panel h1 { font-size: 1.44rem; line-height: 1.5; }
-  .intro-copy { margin: 6px 0 10px; padding-right: 104px; font-size: .72rem; line-height: 1.6; }
-  .support-note { max-width: calc(100% - 110px); padding: 5px 11px; font-size: .6rem; line-height: 1.5; }
-  .stage-kv { width: 116px; right: -4px; bottom: -46px; }
+  .intro-copy { margin: 6px 0 10px; padding-left: 104px; font-size: .72rem; line-height: 1.6; }
+  .support-note { margin-left: 104px; max-width: calc(100% - 104px); padding: 5px 11px; font-size: .6rem; line-height: 1.5; }
+  .stage-kv { width: 116px; left: -4px; bottom: -46px; }
   .form-zone { padding: 0 12px 43px; }
   /* スマホではフォームカードが全幅になり左右にトンボを置けないため、
      カード下の帯・見出し周り・右端の余白へ配置し直す。
