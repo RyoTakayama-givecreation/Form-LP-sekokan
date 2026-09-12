@@ -195,11 +195,13 @@ footer p { margin: 0; }
   .support-note { display: none; }
   .form-zone { padding: 0 12px 43px; }
   /* スマホではフォームカードが全幅になり左右にトンボを置けないため、
-     カード下の帯・見出し周り・右端の余白へ配置し直す（レイヤ数は同じ） */
+     カード下の帯・見出し周り・右端の余白へ配置し直す。
+     フォーム下は3個に絞り、横位置・高さ・大きさをばらして並びに見せない */
   .form-zone::before {
     opacity: .42;
-    background-position: 8% 97%, 27% 100%, 46% 96%, 64% 100%, 82% 97%, 96% 99%;
-    background-size: 24px, 16px, 28px, 18px, 22px, 14px;
+    background-image: url("./background.svg"), url("./background.svg"), url("./background.svg");
+    background-position: 11% 100%, 47% 96%, 86% 99%;
+    background-size: 25px, 15px, 21px;
   }
   .jobs-section::before {
     opacity: .4;
