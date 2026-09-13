@@ -35,8 +35,9 @@ img { display: block; max-width: 100%; }
 .brand { display: block; width: 68px; height: 33px; position: relative; overflow: hidden; }
 /* ロゴは黒文字のため、濃紺のヘッダー上では白へノックアウトして表示する */
 .brand img { position: absolute; width: 68px; max-width: none; height: 68px; left: 0; top: -18px; object-fit: contain; filter: brightness(0) invert(1); }
-.header-trust { display: flex; gap: 8px; color: #e6f3fc; font-size: .7rem; font-weight: 700; }
-.header-trust span { border: 1px solid rgba(255,255,255,.5); border-radius: 999px; padding: 3px 12px; background: rgba(7,26,45,.42); text-shadow: 0 1px 5px rgba(0,0,0,.3); }
+.header-trust { display: flex; gap: 8px; color: var(--navy); font-size: .7rem; font-weight: 800; }
+.header-trust > span { display: flex; align-items: center; gap: 7px; border: 1px solid rgba(126,212,238,.9); border-radius: 999px; padding: 3px 5px 3px 11px; background: rgba(255,255,255,.94); box-shadow: 0 4px 14px rgba(0,18,45,.2); }
+.header-trust strong { padding: 2px 7px; border-radius: 999px; background: linear-gradient(105deg, #20a6de, #5134ad); color: #fff; font-size: .92em; letter-spacing: .02em; }
 
 /* 左のコピーと右の人物を非対称に置き、下の白い情報帯でフォームへつなぐ */
 .stage-body { width: min(920px, 100%); min-height: 174px; margin: auto; position: relative; }
@@ -168,7 +169,7 @@ legend small { margin-left: 8px; color: #798697; font-size: .7rem; font-weight: 
 .section-heading h2 > span { display: block; }
 .section-heading h2 .jobs-title-accent { color: var(--blue); font-style: normal; }
 .section-heading > p { margin: 0 0 7px; color: var(--muted); font-size: .92rem; }
-.job-slider-wrap { width: min(1180px, 100%); margin: auto; position: relative; }
+.job-slider-wrap { width: 100vw; max-width: none; margin-left: calc(50% - 50vw); position: relative; }
 .job-slider { display: flex; gap: 14px; overflow-x: auto; scrollbar-width: none; padding: 3px 2px 13px; cursor: grab; overscroll-behavior-inline: contain; }
 .job-slider:active { cursor: grabbing; }
 .job-slider::-webkit-scrollbar { display: none; }
@@ -194,7 +195,7 @@ legend small { margin-left: 8px; color: #798697; font-size: .7rem; font-weight: 
 .jobs-note { width: min(1180px, 100%); margin: 9px auto 0; color: #7d8893; font-size: .68rem; }
 
 .closing-band { padding: 28px 24px; display: flex; align-items: center; justify-content: center; gap: 46px; color: #fff; background: linear-gradient(100deg, var(--navy-deep), #113f77); }
-.closing-band p { margin: 0; font-family: var(--serif); font-size: 1.25rem; }
+.closing-band p { margin: 0; font-family: var(--serif); font-size: 1.25rem; white-space: nowrap; }
 .closing-band a { min-width: 290px; padding: 13px 24px; border-radius: 999px; color: #fff; background: linear-gradient(105deg, var(--cyan), #2e64b8, var(--violet)); text-align: center; text-decoration: none; font-weight: 800; box-shadow: 0 8px 22px rgba(0,0,0,.2); }
 
 footer { position: relative; min-height: 95px; padding: 20px 24px; display: flex; align-items: center; justify-content: center; gap: 30px; background: none; color: #44596d; font-size: .7rem; }
@@ -218,9 +219,11 @@ footer p { margin: 0; }
   .entry-stage { min-height: 0; padding: 0; background: #f2f5f7; }
   .stage-shell { width: 100%; min-height: 0; aspect-ratio: 15 / 8; border-radius: 0; box-shadow: none; }
   .stage-header { width: calc(100% - 20px); height: 30px; margin: 0 10px; }
-  .brand { width: 52px; height: 26px; }
-  .brand img { width: 52px; height: 52px; top: -14px; }
-  .header-trust span { padding: 1px 6px; font-size: .43rem; }
+  .brand { width: 44px; height: 22px; }
+  .brand img { width: 44px; height: 44px; top: -12px; }
+  .header-trust { font-size: .52rem; }
+  .header-trust > span { gap: 4px; padding: 2px 3px 2px 7px; }
+  .header-trust strong { padding: 2px 5px; }
   .stage-body { width: 100%; min-height: 121px; }
   .intro-panel { padding: 7px 138px 2px 11px; }
   .eyebrow { margin-bottom: 7px; font-size: .58rem; }
@@ -279,7 +282,7 @@ footer p { margin: 0; }
   .section-heading h2 { font-size: 1.65rem; line-height: 1.42; }
   .section-heading h2 > span { white-space: nowrap; }
   .section-heading > p { margin-top: 13px; font-size: .82rem; }
-  .job-slider { gap: 10px; margin-right: -16px; padding-right: 16px; }
+  .job-slider { gap: 10px; margin-right: 0; padding-right: 2px; }
   .job-card { flex-basis: 79%; padding: 15px 16px 13px; }
   .company-logo { height: 36px; }
   .company-logo--image img { width: 118px; max-height: 29px; }
@@ -287,7 +290,7 @@ footer p { margin: 0; }
   .job-card h3 { min-height: 42px; font-size: 1.02rem; }
   .job-salary b { font-size: 1.38rem; }
   .closing-band { padding: 27px 20px; display: block; text-align: center; }
-  .closing-band p { margin-bottom: 15px; font-size: 1.08rem; }
+  .closing-band p { margin-bottom: 15px; font-size: clamp(.76rem, 3.6vw, .9rem); }
   .closing-band a { display: block; min-width: 0; }
   footer { padding: 19px; flex-wrap: wrap; gap: 6px 20px; text-align: center; }
   footer img { width: 82px; }

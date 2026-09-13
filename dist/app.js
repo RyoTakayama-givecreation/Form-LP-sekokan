@@ -6,6 +6,7 @@
   const nextButton = document.getElementById("nextButton");
   const backButton = document.getElementById("backButton");
   const nextLabel = document.getElementById("nextLabel");
+  const formTitle = document.getElementById("form-title");
   const stepLabel = document.getElementById("stepLabel");
   const progressPercent = document.getElementById("progressPercent");
   const progressBar = document.getElementById("progressBar");
@@ -55,6 +56,7 @@
 
   function renderStep() {
     steps.forEach((step, index) => step.classList.toggle("is-active", index === currentStep));
+    formTitle.textContent = steps[currentStep].dataset.title;
     const percent = Math.round(((currentStep + 1) / steps.length) * 100);
     stepLabel.textContent = `STEP ${currentStep + 1} / ${steps.length}`;
     progressPercent.textContent = `${percent}%`;
