@@ -100,28 +100,51 @@
 
   const slider = document.getElementById("jobSlider");
   const originalCards = Array.from(slider.querySelectorAll(".job-card"));
+  // Copies kept on each side of the originals. Swipe/trackpad momentum can't be rebased
+  // mid-gesture (writing scrollLeft kills iOS momentum), so a gesture needs this much room
+  // before it reaches a scroll edge. One set is at least ~1,060px, so this is over 3,000px.
+  const BUFFER_SETS = 3;
   function fitJobTitles() {
-    slider.querySelectorAll(".job-card h3").forEach(function (title) {
-      title.style.fontSize = "";
+    const titles = Array.from(slider.querySelectorAll(".job-card h3"));
+    titles.forEach(function (title) { title.style.fontSize = ""; });
+    // Copies repeat the originals in order at the same width, so fit the originals once
+    // (one layout instead of one per card) and reuse the sizes.
+    const sizes = originalCards.map(function (card) {
+      const title = card.querySelector("h3");
       const naturalSize = parseFloat(getComputedStyle(title).fontSize);
-      if (title.scrollWidth <= title.clientWidth) return;
-      const fittedSize = Math.max(11.5, naturalSize * title.clientWidth / title.scrollWidth);
-      title.style.fontSize = `${fittedSize}px`;
+      if (title.scrollWidth <= title.clientWidth) return "";
+      return `${Math.max(11.5, naturalSize * title.clientWidth / title.scrollWidth)}px`;
     });
+    titles.forEach(function (title, index) { title.style.fontSize = sizes[index % sizes.length]; });
   }
-  const beforeCards = document.createDocumentFragment();
-  const afterCards = document.createDocumentFragment();
-  originalCards.forEach(function (card) {
-    const before = card.cloneNode(true);
-    const after = card.cloneNode(true);
-    before.setAttribute("aria-hidden", "true");
-    after.setAttribute("aria-hidden", "true");
-    beforeCards.appendChild(before);
-    afterCards.appendChild(after);
-  });
-  slider.insertBefore(beforeCards, slider.firstChild);
-  slider.appendChild(afterCards);
+  function cloneSet() {
+    const set = document.createDocumentFragment();
+    originalCards.forEach(function (card) {
+      const copy = card.cloneNode(true);
+      copy.setAttribute("aria-hidden", "true");
+      set.appendChild(copy);
+    });
+    return set;
+  }
+  for (let i = 0; i < BUFFER_SETS; i += 1) {
+    slider.insertBefore(cloneSet(), slider.firstChild);
+    slider.appendChild(cloneSet());
+  }
 
+  // Autoplay runs one loop past loopBase and gestures need BUFFER_SETS of room beyond that.
+  // Card width is capped, so on wide screens the viewport can outgrow the copies; the
+  // browser then clamps scrollLeft short of the wrap point and the slider freezes, then
+  // jumps. Append copies until that far end is reachable.
+  function ensureTrailingCopies(base, width) {
+    let added = false;
+    for (let i = 0; i < 10 && slider.scrollWidth - slider.clientWidth < base * 2 + width; i += 1) {
+      slider.appendChild(cloneSet());
+      added = true;
+    }
+    return added;
+  }
+
+  let loopBase = 0;
   let loopWidth = 0;
   let autoPosition = 0;
   let previousTime = 0;
@@ -138,15 +161,25 @@
     lastWritten = slider.scrollLeft;
   }
 
+  // Whole loops to subtract to bring a position into [loopBase, loopBase + loopWidth).
+  // Every loop is an identical copy, so the jump is invisible.
+  function loopShift(position) {
+    return Math.floor((position - loopBase) / loopWidth) * loopWidth;
+  }
+
   function measureSlider() {
     fitJobTitles();
-    const nextWidth = originalCards[0].getBoundingClientRect().left -
+    const base = originalCards[0].getBoundingClientRect().left -
       slider.firstElementChild.getBoundingClientRect().left;
-    if (!nextWidth || Math.abs(nextWidth - loopWidth) < .5) return;
+    if (!base) return;
+    // Checked before the early return: the viewport can widen while card width stays capped.
+    if (ensureTrailingCopies(base, base / BUFFER_SETS)) fitJobTitles();
+    if (Math.abs(base - loopBase) < .5) return;
     // Preserve the current job and fractional progress on a real width change.
     const phase = loopWidth ? ((slider.scrollLeft % loopWidth) + loopWidth) % loopWidth / loopWidth : 0;
-    loopWidth = nextWidth;
-    autoPosition = loopWidth * (1 + phase);
+    loopBase = base;
+    loopWidth = base / BUFFER_SETS;
+    autoPosition = loopBase + loopWidth * phase;
     writePosition(autoPosition);
   }
 
@@ -168,7 +201,7 @@
     if (!manual && document.visibilityState === "visible" && loopWidth) {
       autoPosition += elapsed * .03;
       // Rebase only outside gestures/momentum, between identical copies.
-      autoPosition = loopWidth + ((autoPosition % loopWidth) + loopWidth) % loopWidth;
+      autoPosition -= loopShift(autoPosition);
       writePosition(autoPosition);
     }
     requestAnimationFrame(moveSlider);
@@ -201,7 +234,14 @@
   slider.addEventListener("pointermove", function (event) {
     if (event.pointerType !== "mouse" || event.pointerId !== mouseId) return;
     beginInteraction();
-    slider.scrollLeft = dragStartScroll - (event.clientX - dragStartX);
+    let position = dragStartScroll - (event.clientX - dragStartX);
+    // A drag writes scrollLeft itself (no momentum to lose), so it can wrap while moving.
+    if (loopWidth) {
+      const shift = loopShift(position);
+      position -= shift;
+      dragStartScroll -= shift;
+    }
+    slider.scrollLeft = position;
   });
   function endMouse(event) {
     if (event.pointerId !== mouseId) return;
@@ -217,6 +257,9 @@
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
       event.preventDefault();
       beginInteraction();
+      // Same for keys: wrap before each step so holding an arrow never reaches an edge.
+      const shift = loopWidth ? loopShift(slider.scrollLeft) : 0;
+      if (shift) slider.scrollLeft -= shift;
       slider.scrollBy({ left: event.key === "ArrowRight" ? slider.clientWidth * .7 : -slider.clientWidth * .7, behavior: "smooth" });
     }
   });
