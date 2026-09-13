@@ -173,22 +173,25 @@ legend small { margin-left: 8px; color: #798697; font-size: .7rem; font-weight: 
 .job-slider { display: flex; gap: 14px; overflow-x: auto; scrollbar-width: none; padding: 3px 2px 13px; cursor: grab; overscroll-behavior-inline: contain; }
 .job-slider:active { cursor: grabbing; }
 .job-slider::-webkit-scrollbar { display: none; }
-.job-card { flex: 0 0 calc((100% - 28px) / 3); min-width: 0; padding: 17px 18px 15px; border: 1px solid #cbd9e3; border-radius: 11px; background: linear-gradient(180deg, #fff 0%, #fff 72%, #f8fbfd 100%); position: relative; }
+.job-card { flex: 0 0 calc((100% - 42px) / 4); min-width: 0; padding: 17px 18px 15px; border: 1px solid #cbd9e3; border-radius: 11px; background: linear-gradient(180deg, #fff 0%, #fff 72%, #f8fbfd 100%); position: relative; }
 .company-logo { height: 40px; display: flex; align-items: center; color: var(--navy); font-size: .98rem; font-weight: 900; letter-spacing: .05em; }
 .company-logo--image img { width: 130px; max-height: 32px; object-fit: contain; object-position: left center; }
 .company-logo--image.company-logo--ihi img { width: 94px; height: 31px; object-fit: cover; object-position: left center; }
 .company-logo--daikin { color: #075eaa; font-style: italic; }
-.job-type { width: fit-content; margin: 8px 0 4px; padding: 2px 7px; border-radius: 4px; background: #eaf6fc; color: #247da9; font-size: .65rem; font-weight: 800; letter-spacing: .07em; }
+.job-meta { margin: 8px 0 4px; display: flex; align-items: center; justify-content: space-between; gap: 7px; }
+.job-type { width: fit-content; min-width: 0; margin: 0; padding: 2px 7px; border-radius: 4px; background: #eaf6fc; color: #247da9; font-size: .65rem; font-weight: 800; letter-spacing: .07em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.job-location { flex: 0 0 auto; margin: 0; display: flex; align-items: baseline; gap: 3px; color: var(--navy); white-space: nowrap; }
+.job-location small { color: #7b8995; font-size: .56rem; font-weight: 700; }
+.job-location strong { font-size: .68rem; font-weight: 800; }
 .job-card h3 { min-height: 45px; margin: 0 0 9px; color: var(--navy); font-family: var(--serif); font-size: 1.08rem; line-height: 1.4; }
-.job-facts { display: grid; grid-template-columns: 1.45fr .55fr; border-top: 1px solid #dce5eb; border-bottom: 1px solid #dce5eb; }
+.job-facts { display: block; border-top: 1px solid #dce5eb; border-bottom: 1px solid #dce5eb; }
 .job-facts span { min-width: 0; padding: 8px 0 7px; }
-.job-facts span + span { padding-left: 10px; border-left: 1px solid #dce5eb; }
 .job-facts small, .job-facts strong { display: block; }
 .job-facts small { margin-bottom: 1px; color: #788694; font-size: .62rem; }
 .job-facts strong { color: var(--navy); font-size: .82rem; }
 .job-salary { display: flex !important; align-items: baseline; gap: 3px; white-space: nowrap; }
 .job-salary b { display: inline-flex; align-items: baseline; color: #126a9f; font-family: Arial, "Helvetica Neue", sans-serif; font-size: 1.45rem; font-weight: 800; letter-spacing: -.055em; line-height: 1; font-variant-numeric: tabular-nums; }
-.job-salary b .salary-range { margin: 0 .04em; font-family: var(--sans); font-size: .55em; font-weight: 700; letter-spacing: 0; }
+.job-salary b .salary-range { margin: 0 .04em; font-family: var(--sans); font-size: .62em; font-weight: 700; letter-spacing: 0; line-height: 1; transform: translateY(-.12em); }
 .job-salary i { color: var(--navy); font-family: var(--sans); font-size: .66rem; font-style: normal; font-weight: 800; }
 .job-card ul { list-style: none; margin: 10px 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 5px; }
 .job-card li { padding: 3px 7px; border-radius: 4px; background: #edf4f8; color: #3b6077; font-size: .64rem; font-weight: 700; }
@@ -211,7 +214,7 @@ footer img { width: 92px; height: 48px; object-fit: contain; }
 footer p { margin: 0; }
 
 @media (max-width: 920px) {
-  .job-card { flex-basis: calc((100% - 14px) / 2); }
+  .job-card { flex-basis: calc((100% - 28px) / 3); }
 }
 
 @media (max-width: 700px) {
@@ -283,7 +286,7 @@ footer p { margin: 0; }
   .section-heading h2 > span { white-space: nowrap; }
   .section-heading > p { margin-top: 13px; font-size: .82rem; }
   .job-slider { gap: 10px; margin-right: 0; padding-right: 2px; }
-  .job-card { flex-basis: 79%; padding: 15px 16px 13px; }
+  .job-card { flex-basis: 70%; padding: 15px 16px 13px; }
   .company-logo { height: 36px; }
   .company-logo--image img { width: 118px; max-height: 29px; }
   .company-logo--image.company-logo--ihi img { width: 88px; height: 28px; }
