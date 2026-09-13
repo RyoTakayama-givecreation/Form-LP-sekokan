@@ -100,6 +100,15 @@
 
   const slider = document.getElementById("jobSlider");
   const originalCards = Array.from(slider.querySelectorAll(".job-card"));
+  function fitJobTitles() {
+    slider.querySelectorAll(".job-card h3").forEach(function (title) {
+      title.style.fontSize = "";
+      const naturalSize = parseFloat(getComputedStyle(title).fontSize);
+      if (title.scrollWidth <= title.clientWidth) return;
+      const fittedSize = Math.max(11.5, naturalSize * title.clientWidth / title.scrollWidth);
+      title.style.fontSize = `${fittedSize}px`;
+    });
+  }
   const beforeCards = document.createDocumentFragment();
   const afterCards = document.createDocumentFragment();
   originalCards.forEach(function (card) {
@@ -130,6 +139,7 @@
   }
 
   function measureSlider() {
+    fitJobTitles();
     const nextWidth = originalCards[0].getBoundingClientRect().left -
       slider.firstElementChild.getBoundingClientRect().left;
     if (!nextWidth || Math.abs(nextWidth - loopWidth) < .5) return;
