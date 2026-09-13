@@ -112,106 +112,109 @@
   slider.appendChild(afterCards);
 
   let loopWidth = 0;
-  let autoFrame = 0;
   let autoPosition = 0;
   let previousTime = 0;
-  let interactionPaused = false;
-  let resumeTimer = 0;
-  let isDragging = false;
+  let manual = false;
+  let lastInteraction = 0;
+  let touching = false;
+  let mouseId = null;
   let dragStartX = 0;
   let dragStartScroll = 0;
+  let lastWritten = 0;
+
+  function writePosition(position) {
+    slider.scrollLeft = position;
+    lastWritten = slider.scrollLeft;
+  }
 
   function measureSlider() {
-    loopWidth = originalCards[0].offsetLeft - slider.firstElementChild.offsetLeft;
-    slider.scrollLeft = loopWidth;
-    autoPosition = loopWidth;
+    const nextWidth = originalCards[0].getBoundingClientRect().left -
+      slider.firstElementChild.getBoundingClientRect().left;
+    if (!nextWidth || Math.abs(nextWidth - loopWidth) < .5) return;
+    // Preserve the current job and fractional progress on a real width change.
+    const phase = loopWidth ? ((slider.scrollLeft % loopWidth) + loopWidth) % loopWidth / loopWidth : 0;
+    loopWidth = nextWidth;
+    autoPosition = loopWidth * (1 + phase);
+    writePosition(autoPosition);
   }
 
-  function normalizeSlider() {
-    if (!loopWidth) return;
-    if (slider.scrollLeft < loopWidth * .35) {
-      slider.scrollLeft += loopWidth;
-      autoPosition += loopWidth;
-    }
-    if (slider.scrollLeft > loopWidth * 1.65) {
-      slider.scrollLeft -= loopWidth;
-      autoPosition -= loopWidth;
-    }
-  }
-
-  function pauseForInteraction() {
-    interactionPaused = true;
-    autoPosition = slider.scrollLeft;
-    window.clearTimeout(resumeTimer);
-    resumeTimer = window.setTimeout(function () {
-      interactionPaused = false;
-    }, 100);
+  function beginInteraction() {
+    manual = true;
+    lastInteraction = performance.now();
   }
 
   function moveSlider(now) {
     const elapsed = Math.min(now - previousTime, 40);
     previousTime = now;
-    if (!interactionPaused && !isDragging && document.visibilityState === "visible" && loopWidth) {
-      autoPosition += elapsed * .03;
-      slider.scrollLeft = autoPosition;
-      normalizeSlider();
+    if (manual) {
+      // Native touch momentum must finish before autoplay owns scrollLeft again.
+      if (!touching && mouseId === null && now - lastInteraction >= 100) {
+        autoPosition = slider.scrollLeft;
+        manual = false;
+      }
     }
-    autoFrame = requestAnimationFrame(moveSlider);
+    if (!manual && document.visibilityState === "visible" && loopWidth) {
+      autoPosition += elapsed * .03;
+      // Rebase only outside gestures/momentum, between identical copies.
+      autoPosition = loopWidth + ((autoPosition % loopWidth) + loopWidth) % loopWidth;
+      writePosition(autoPosition);
+    }
+    requestAnimationFrame(moveSlider);
   }
 
   slider.addEventListener("scroll", function () {
-    normalizeSlider();
-    if (interactionPaused || isDragging) autoPosition = slider.scrollLeft;
+    // Ignore our own writes, including Safari's fractional-pixel rounding.
+    if (manual || Math.abs(slider.scrollLeft - lastWritten) > 1) beginInteraction();
   }, { passive: true });
+
+  slider.addEventListener("touchstart", function () {
+    touching = true;
+    beginInteraction();
+  }, { passive: true });
+  function endTouch(event) {
+    touching = event.touches.length > 0;
+    beginInteraction();
+  }
+  slider.addEventListener("touchend", endTouch, { passive: true });
+  slider.addEventListener("touchcancel", endTouch, { passive: true });
+
   slider.addEventListener("pointerdown", function (event) {
-    pauseForInteraction();
-    isDragging = true;
-    if (event.pointerType !== "mouse") return;
+    if (event.pointerType !== "mouse" || event.button !== 0) return;
+    mouseId = event.pointerId;
     dragStartX = event.clientX;
     dragStartScroll = slider.scrollLeft;
+    beginInteraction();
     slider.setPointerCapture(event.pointerId);
   });
   slider.addEventListener("pointermove", function (event) {
-    if (!isDragging) return;
+    if (event.pointerType !== "mouse" || event.pointerId !== mouseId) return;
+    beginInteraction();
     slider.scrollLeft = dragStartScroll - (event.clientX - dragStartX);
-    autoPosition = slider.scrollLeft;
   });
-  slider.addEventListener("pointerup", function () {
-    isDragging = false;
-    pauseForInteraction();
-  });
-  slider.addEventListener("pointercancel", function () {
-    isDragging = false;
-    pauseForInteraction();
-  });
-  slider.addEventListener("touchstart", function () {
-    isDragging = true;
-    pauseForInteraction();
-  }, { passive: true });
-  slider.addEventListener("touchend", function () {
-    isDragging = false;
-    pauseForInteraction();
-  }, { passive: true });
-  slider.addEventListener("touchcancel", function () {
-    isDragging = false;
-    pauseForInteraction();
-  }, { passive: true });
-  slider.addEventListener("wheel", pauseForInteraction, { passive: true });
+  function endMouse(event) {
+    if (event.pointerId !== mouseId) return;
+    mouseId = null;
+    beginInteraction();
+  }
+  slider.addEventListener("pointerup", endMouse);
+  slider.addEventListener("pointercancel", endMouse);
+  slider.addEventListener("lostpointercapture", endMouse);
+  slider.addEventListener("dragstart", function (event) { event.preventDefault(); });
+  slider.addEventListener("wheel", beginInteraction, { passive: true });
   slider.addEventListener("keydown", function (event) {
     if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
       event.preventDefault();
-      pauseForInteraction();
+      beginInteraction();
       slider.scrollBy({ left: event.key === "ArrowRight" ? slider.clientWidth * .7 : -slider.clientWidth * .7, behavior: "smooth" });
     }
   });
-  slider.addEventListener("focusin", pauseForInteraction);
-  slider.addEventListener("focusout", pauseForInteraction);
 
-  requestAnimationFrame(function () {
+  requestAnimationFrame(function (now) {
     measureSlider();
-    previousTime = performance.now();
-    autoFrame = requestAnimationFrame(moveSlider);
+    previousTime = now;
+    requestAnimationFrame(moveSlider);
   });
+  // Safari's collapsing address bar emits resize even when card widths do not change.
   window.addEventListener("resize", measureSlider);
 
   renderStep();
