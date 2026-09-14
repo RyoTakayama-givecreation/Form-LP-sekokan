@@ -223,19 +223,20 @@ footer p { margin: 0; }
   .header-trust { font-size: .52rem; }
   .header-trust > span { gap: 4px; padding: 2px 3px 2px 7px; }
   .header-trust strong { padding: 2px 5px; }
-  .stage-body { width: 100%; min-height: 121px; }
-  .intro-panel { padding: 7px 138px 2px 11px; }
+  .stage-body { width: 100%; min-height: 170px; }
+  .intro-panel { padding: 10px 132px 0 12px; }
   .eyebrow { margin-bottom: 7px; font-size: .58rem; }
-  .hero-expert { margin-bottom: 5px; gap: 4px; font-size: 1rem; letter-spacing: .01em; }
+  .hero-expert { margin-bottom: 6px; gap: 4px; font-size: 1rem; letter-spacing: .01em; }
   .hero-expert strong { font-size: 1.55em; }
   .hero-expert b { font-size: .72em; }
   .hero-expert span { font-size: .82em; }
-  .intro-panel h1 { font-size: 1.48rem; line-height: 1.12; }
+  .intro-panel h1 { font-size: 1.5rem; line-height: 1.14; }
   .intro-panel h1 span { font-size: .67em; }
   .intro-panel h1 em { font-size: 1.16em; letter-spacing: .02em; }
   .intro-panel h1 em::after { height: 5px; bottom: 0; }
-  .intro-panel h1 + .hero-sub { margin-top: 6px; font-size: .46rem; line-height: 1.45; }
-  .hero-benefit-panel { min-height: 43px; margin: 0 4px 4px; padding: 3px 2px; display: block; border-radius: 6px; }
+  .intro-panel h1 + .hero-sub { margin-top: 8px; font-size: .5rem; line-height: 1.5; }
+  .hero-benefit-panel { width: calc(100% - 8px); min-height: 43px; margin: 0 4px 4px; padding: 3px 2px; display: block; border-radius: 6px; }
+  .hero-benefits { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .hero-benefits li { min-height: 37px; padding: 1px 4px; text-align: center; }
   .hero-benefits span { font-size: .37rem; }
   .hero-benefits strong { font-size: .53rem; }
