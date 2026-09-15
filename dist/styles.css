@@ -224,7 +224,7 @@ footer p { margin: 0; }
   .header-trust > span { gap: 4px; padding: 2px 3px 2px 7px; }
   .header-trust strong { padding: 2px 5px; }
   .stage-body { width: 100%; min-height: 170px; }
-  .intro-panel { padding: 10px 132px 0 12px; }
+  .intro-panel { min-height: 170px; padding: 4px 145px 9px 12px; display: flex; flex-direction: column; justify-content: center; }
   .eyebrow { margin-bottom: 7px; font-size: .58rem; }
   .hero-expert { margin-bottom: 6px; gap: 4px; font-size: 1rem; letter-spacing: .01em; }
   .hero-expert strong { font-size: 1.55em; }
@@ -240,7 +240,7 @@ footer p { margin: 0; }
   .hero-benefits li { min-height: 37px; padding: 1px 4px; text-align: center; }
   .hero-benefits span { font-size: .37rem; }
   .hero-benefits strong { font-size: .53rem; }
-  .stage-kv { width: 180px; right: -5px; left: auto; bottom: -56px; }
+  .stage-kv { width: 205px; right: -12px; left: auto; bottom: -59px; }
   .stage-kv img { top: -18%; }
   .form-zone { padding: 12px 12px 43px; }
   /* スマホではフォームカードが全幅になり左右にトンボを置けないため、
