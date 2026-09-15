@@ -76,7 +76,6 @@
     progressBar.style.width = `${percent}%`;
     backButton.classList.toggle("is-visible", currentStep > 0);
     nextLabel.textContent = currentStep === steps.length - 1 ? "無料で求人を紹介してもらう" : "次へ進む";
-    nextButton.classList.toggle("is-hidden", autoAdvanceSteps.has(currentStep));
     nextButton.classList.toggle("is-submit", currentStep === steps.length - 1);
     nextButton.disabled = !stepIsValid();
     if (currentStep === 1 && previousStep !== 1) animateMatchCount();
