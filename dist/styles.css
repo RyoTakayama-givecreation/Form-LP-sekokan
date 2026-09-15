@@ -263,8 +263,12 @@ footer p { margin: 0; }
     background-size: 26px, 20px, 18px, 24px, 16px;
   }
   .form-card { min-height: 0; margin: 0 auto; padding: 20px 16px 16px; border-radius: 14px; }
-  .form-head h2 { font-size: 1.25rem; }
-  .time-badge { width: 51px; height: 51px; flex-basis: 51px; }
+  .form-head { gap: 8px; align-items: flex-start; }
+  .form-head > div { min-width: 0; }
+  .form-head h2 { font-size: clamp(.78rem, 4vw, 1.08rem); line-height: 1.35; white-space: nowrap; }
+  .time-badge { width: auto; height: 32px; flex: 0 0 auto; padding: 0 8px; display: flex; align-items: baseline; gap: 1px; border: 1px solid rgba(126,212,238,.72); border-radius: 999px; background: linear-gradient(120deg, #0c2850, #1167b4); box-shadow: 0 5px 14px rgba(12,40,80,.22); font-size: .55rem; line-height: 1; white-space: nowrap; }
+  .time-badge br { display: none; }
+  .time-badge strong { font-family: Arial, "Helvetica Neue", sans-serif; font-size: 1.18rem; font-weight: 900; letter-spacing: -.03em; }
   .progress-wrap { margin: 14px 0 17px; }
   .choice-grid--two { gap: 7px; }
   .choice span { min-height: 50px; padding: 9px 30px 9px 10px; font-size: .75rem; }
