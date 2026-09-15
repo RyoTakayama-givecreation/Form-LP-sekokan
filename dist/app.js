@@ -18,14 +18,16 @@
   let currentStep = 0;
   let previousStep = -1;
   let matchAnimationFrame = 0;
+  let autoAdvanceTimer = 0;
+  const autoAdvanceSteps = new Set([1, 2]);
 
   function animateMatchCount() {
     cancelAnimationFrame(matchAnimationFrame);
-    matchResult.classList.remove("is-revealed", "is-complete");
+    matchResult.classList.remove("is-complete");
+    matchResult.classList.add("is-revealed");
     jobMatchCount.textContent = reduceMotion ? "960" : "0";
 
     requestAnimationFrame(function () {
-      matchResult.classList.add("is-revealed");
       if (reduceMotion) {
         matchResult.classList.add("is-complete");
         return;
@@ -51,7 +53,18 @@
     const active = steps[currentStep];
     if (currentStep === 0) return active.querySelectorAll("input:checked").length > 0;
     if (currentStep === 1 || currentStep === 2) return Boolean(active.querySelector("input:checked"));
+    if (currentStep === 3) {
+      const age = active.querySelector('input[name="age"]');
+      return Array.from(active.querySelectorAll("[required]")).every((field) => field.value.trim()) && /^\d{1,3}$/.test(age.value);
+    }
     return Array.from(active.querySelectorAll("[required]")).every((field) => field.value.trim());
+  }
+
+  function showNextStep() {
+    if (currentStep >= steps.length - 1) return;
+    currentStep += 1;
+    renderStep();
+    document.querySelector(".form-card").scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
   function renderStep() {
@@ -63,19 +76,31 @@
     progressBar.style.width = `${percent}%`;
     backButton.classList.toggle("is-visible", currentStep > 0);
     nextLabel.textContent = currentStep === steps.length - 1 ? "無料で求人を紹介してもらう" : "次へ進む";
+    nextButton.classList.toggle("is-hidden", autoAdvanceSteps.has(currentStep));
+    nextButton.classList.toggle("is-submit", currentStep === steps.length - 1);
     nextButton.disabled = !stepIsValid();
     if (currentStep === 1 && previousStep !== 1) animateMatchCount();
     previousStep = currentStep;
   }
 
-  form.addEventListener("change", renderStep);
-  form.addEventListener("input", renderStep);
+  form.addEventListener("change", function (event) {
+    renderStep();
+    if (!autoAdvanceSteps.has(currentStep) || !event.target.matches('input[type="radio"]') || !event.target.checked) return;
+    const selectedStep = currentStep;
+    clearTimeout(autoAdvanceTimer);
+    autoAdvanceTimer = window.setTimeout(function () {
+      if (currentStep !== selectedStep || !stepIsValid()) return;
+      showNextStep();
+    }, 160);
+  });
+  form.addEventListener("input", function (event) {
+    if (event.target.matches('input[name="age"]')) event.target.value = event.target.value.replace(/\D/g, "").slice(0, 3);
+    renderStep();
+  });
   nextButton.addEventListener("click", function () {
     if (!stepIsValid()) return;
     if (currentStep < steps.length - 1) {
-      currentStep += 1;
-      renderStep();
-      document.querySelector(".form-card").scrollIntoView({ behavior: "smooth", block: "nearest" });
+      showNextStep();
       return;
     }
     form.hidden = true;
@@ -85,6 +110,7 @@
   });
   backButton.addEventListener("click", function () {
     if (currentStep === 0) return;
+    clearTimeout(autoAdvanceTimer);
     currentStep -= 1;
     renderStep();
   });

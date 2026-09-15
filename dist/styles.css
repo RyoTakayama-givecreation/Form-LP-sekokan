@@ -136,10 +136,15 @@ legend small { margin-left: 8px; color: #798697; font-size: .7rem; font-weight: 
 .field small { color: #7b8794; font-weight: 500; }
 .field input, .field select { width: 100%; height: 50px; padding: 0 13px; border: 1px solid #cfdbe5; border-radius: 8px; background: #fff; color: var(--ink); font-size: .9rem; outline: none; }
 .field input:focus, .field select:focus { border-color: var(--blue); box-shadow: 0 0 0 3px rgba(17,103,180,.11); }
+.age-input { position: relative; display: block; }
+.age-input input { padding-right: 32px; }
+.age-input i { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #66788a; font-size: .78rem; font-style: normal; pointer-events: none; }
 
 .form-actions { display: flex; gap: 10px; margin-top: 17px; }
 .next-button, .back-button { min-height: 52px; border: 0; border-radius: 999px; font-weight: 800; cursor: pointer; transition: opacity .2s, transform .2s, box-shadow .2s; }
 .next-button { flex: 1; display: flex; justify-content: center; align-items: center; gap: 12px; background: linear-gradient(105deg, #20a6de, #2862b8 58%, #5336a5); color: #fff; box-shadow: 0 10px 24px rgba(25,94,177,.25); }
+.next-button.is-hidden { display: none; }
+.next-button.is-submit { font-size: .88rem; }
 .next-button span:last-child { font-size: 1.45rem; line-height: 1; }
 .next-button:disabled { cursor: not-allowed; background: #d7dee5; box-shadow: none; color: #9da8b2; }
 .next-button:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 13px 27px rgba(25,94,177,.32); }
@@ -279,8 +284,11 @@ footer p { margin: 0; }
   .match-result__copy p { margin-top: 3px; font-size: .92rem; }
   .match-result__count b { font-size: 2.1rem; }
   .match-result__count small { font-size: .75rem; }
+  .field-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 10px; }
+  .field select { padding-right: 28px; padding-left: 10px; font-size: .82rem; }
   .form-actions { position: sticky; bottom: 8px; z-index: 2; }
   .next-button, .back-button { min-height: 50px; }
+  .next-button.is-submit { font-size: .78rem; letter-spacing: -.01em; }
   .back-button { width: 74px; }
   .jobs-section { padding: 54px 16px 45px; }
   .section-heading { display: block; margin-bottom: 23px; }
