@@ -328,7 +328,9 @@ body.theme-birumen { background: linear-gradient(180deg, #dceee9 0, #e8f5f1 28%,
 .theme-birumen .intro-panel h1 em { color: var(--cyan); }
 .theme-birumen .hero-benefits span,
 .theme-birumen .match-result__count b { color: var(--blue); }
-.theme-birumen .stage-kv { bottom: -202px; }
+@media (min-width: 701px) {
+  .theme-birumen .stage-kv { width: 270px; bottom: -173px; }
+}
 .theme-birumen .header-trust > span,
 .theme-birumen .time-badge { border-color: var(--sky); }
 .theme-birumen .match-result { border-color: #afd9ce; background: linear-gradient(110deg, #edf9f5 0%, #fbfdfc 58%, #f2f7eb 100%); }
