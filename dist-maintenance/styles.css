@@ -146,7 +146,7 @@ legend small { margin-left: 8px; color: #798697; font-size: .7rem; font-weight: 
 .next-button { flex: 1; display: flex; justify-content: center; align-items: center; gap: 12px; background: linear-gradient(105deg, #20a6de, #2862b8 58%, #5336a5); color: #fff; box-shadow: 0 10px 24px rgba(25,94,177,.25); }
 .next-button.is-submit { font-size: .88rem; }
 .next-button span:last-child { font-size: 1.45rem; line-height: 1; }
-.next-button:disabled { cursor: not-allowed; background: #d7dee5; box-shadow: none; color: #9da8b2; }
+.next-button:disabled { cursor: not-allowed; background: #d7dee5; box-shadow: none; color: #fff; }
 .next-button:not(:disabled):hover { transform: translateY(-1px); box-shadow: 0 13px 27px rgba(25,94,177,.32); }
 .back-button { width: 88px; display: none; background: #edf2f6; color: #627084; }
 .back-button.is-visible { display: block; }
@@ -337,6 +337,7 @@ body.theme-maintenance { background: linear-gradient(180deg, #dbeaf3 0, #e8f3f8 
 
 @media (max-width: 700px) {
   .theme-maintenance .header-note { font-size: .47rem; letter-spacing: .025em; }
+  .theme-maintenance .intro-panel { padding-right: 110px; }
   .theme-maintenance .intro-panel h1 { font-size: 1.17rem; }
-  .theme-maintenance .intro-panel h1 em { font-size: 1.05em; }
+  .theme-maintenance .intro-panel h1 em { font-size: clamp(.95rem, 5vw, 1.22rem); letter-spacing: 0; white-space: nowrap; }
 }
