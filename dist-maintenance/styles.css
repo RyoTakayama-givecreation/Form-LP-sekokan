@@ -29,7 +29,7 @@ img { display: block; max-width: 100%; }
 .entry-stage { position: relative; overflow: hidden; width: 100%; padding: 0; background: #f2f5f7; }
 .stage-shell { width: 100%; min-height: 300px; margin: 0; position: relative; z-index: 1; overflow: hidden; border-radius: 0; background:
   linear-gradient(90deg, rgba(7,17,28,.82) 0%, rgba(10,23,36,.52) 48%, rgba(14,29,43,.04) 100%),
-  url("../dist/not-transparent.webp") center 70% / cover no-repeat,
+  url("../assets/fv/mente-bg.webp") center 50% / cover no-repeat,
   #192735; box-shadow: 0 14px 38px rgba(17,35,51,.12); }
 .stage-header { width: min(960px, calc(100% - 44px)); height: 44px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,.16); position: relative; z-index: 5; }
 .header-note { margin: 0; color: rgba(255,255,255,.9); font-size: .68rem; font-weight: 800; letter-spacing: .08em; }
@@ -66,13 +66,10 @@ img { display: block; max-width: 100%; }
 .hero-benefits span { margin-bottom: 1px; color: #3387b5; font-size: .55rem; font-weight: 900; letter-spacing: .12em; }
 .hero-benefits strong { color: var(--navy); font-family: var(--serif); font-size: .88rem; }
 
-/* 人物は右側の空へ重ね、短いFVでも顔と上半身が残るように窓抜きする。
-   kv.webpは8228x5485のキャンバスに対し被写体が(1753,1249)-(5222,5485)の3469x4236
-   しかないため、画像は加工せずCSS側で被写体だけを窓抜きして表示する。
-   画像を差し替えたときはこの4つの数値を入れ直す。 */
-.stage-kv { position: absolute; right: 90px; bottom: -124px; z-index: 2; overflow: hidden;
-  width: 300px; aspect-ratio: 3469 / 4236; pointer-events: none; user-select: none; transform: scaleX(-1); }
-.stage-kv img { position: absolute; width: 237.19%; max-width: none; height: auto; left: -50.53%; top: -29.49%; }
+/* 職種別の透過人物を右側へ重ねる */
+.stage-kv { position: absolute; right: 90px; bottom: -124px; z-index: 2;
+  width: 300px; pointer-events: none; user-select: none; transform: scaleX(-1); }
+.stage-kv img { width: 100%; max-width: none; height: auto; }
 
 .form-zone { position: relative; padding: 30px 24px 66px; background: none; }
 /* 図面のトンボをワンポイントで散らす。フォームカード(z-index:2)の背面に置く */
@@ -250,7 +247,6 @@ footer p { margin: 0; }
   .hero-benefits span { font-size: .37rem; }
   .hero-benefits strong { font-size: .53rem; }
   .stage-kv { width: 205px; right: -12px; left: auto; bottom: -59px; }
-  .stage-kv img { top: -18%; }
   .form-zone { padding: 12px 12px 43px; }
   /* スマホではフォームカードが全幅になり左右にトンボを置けないため、
      カード下の帯・見出し周り・右端の余白へ配置し直す。
@@ -321,7 +317,7 @@ footer p { margin: 0; }
 }
 
 body.theme-maintenance { background: linear-gradient(180deg, #dbeaf3 0, #e8f3f8 28%, #f5f9fb 51%, #d9e7ef 76%, #bfd6e4 100%); }
-.theme-maintenance .stage-shell { background: linear-gradient(90deg, rgba(8,29,54,.87) 0%, rgba(14,48,77,.6) 48%, rgba(20,57,82,.05) 100%), url("../dist/not-transparent.webp") center 70% / cover no-repeat, #173a63; }
+.theme-maintenance .stage-shell { background: linear-gradient(90deg, rgba(8,29,54,.87) 0%, rgba(14,48,77,.6) 48%, rgba(20,57,82,.05) 100%), url("../assets/fv/mente-bg.webp") center 50% / cover no-repeat, #173a63; }
 .theme-maintenance .header-trust strong,
 .theme-maintenance .time-badge,
 .theme-maintenance .form-card::before,
