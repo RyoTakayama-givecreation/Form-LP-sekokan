@@ -339,5 +339,7 @@ body.theme-birumen { background: linear-gradient(180deg, #dceee9 0, #e8f5f1 28%,
 
 @media (max-width: 700px) {
   .theme-birumen .header-note { font-size: .48rem; letter-spacing: .04em; }
+  .theme-birumen .intro-panel { padding-right: 130px; }
+  .theme-birumen .hero-expert { font-size: clamp(.7rem, 3.7vw, .96rem); white-space: nowrap; }
   .theme-birumen .stage-kv { bottom: -88px; }
 }
