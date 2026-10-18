@@ -14,7 +14,23 @@
   const resetButton = document.getElementById("resetButton");
   const matchResult = document.getElementById("matchResult");
   const jobMatchCount = document.getElementById("jobMatchCount");
-  const targetJobCount = Number(jobMatchCount.dataset.target || jobMatchCount.textContent) || 960;
+  // デモ専用の仮求人ID集合。実求人・実件数ではない。実データ連携時に差し替える。
+  const mockCounts = [891, 973, 1067, 743, 1143, 817, 937, 521];
+  const mockPools = mockCounts.map((count, index) => new Set(
+    Array.from({ length: count }, (_, offset) => (offset * 37 + index * 137) % 1199)
+  ));
+  let targetJobCount = 1143;
+  function updateMatchTarget() {
+    const inputs = Array.from(steps[0].querySelectorAll('input[type="checkbox"]'));
+    const selected = inputs.map((input, index) => input.checked ? index : -1).filter(index => index >= 0);
+    const union = new Set();
+    selected.forEach(index => mockPools[index].forEach(id => union.add(id)));
+    const nextTarget = union.size || 1143;
+    if (nextTarget !== targetJobCount) matchHasAnimated = false;
+    targetJobCount = nextTarget;
+    jobMatchCount.dataset.target = String(targetJobCount);
+    matchResult.setAttribute("aria-label", `紹介求人（仮） ${targetJobCount}件`);
+  }
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let currentStep = 0;
   let previousStep = -1;
@@ -83,6 +99,7 @@
     nextLabel.textContent = currentStep === steps.length - 1 ? "無料で求人を紹介してもらう" : "次へ進む";
     nextButton.classList.toggle("is-submit", currentStep === steps.length - 1);
     nextButton.disabled = !stepIsValid();
+    updateMatchTarget();
     if (currentStep === 1 && !matchHasAnimated) animateMatchCount();
     previousStep = currentStep;
   }
