@@ -29,7 +29,7 @@
     if (nextTarget !== targetJobCount) matchHasAnimated = false;
     targetJobCount = nextTarget;
     jobMatchCount.dataset.target = String(targetJobCount);
-    matchResult.setAttribute("aria-label", `紹介求人（仮） ${targetJobCount}件`);
+    matchResult.setAttribute("aria-label", `紹介求人 ${targetJobCount}件`);
   }
   const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   let currentStep = 0;
