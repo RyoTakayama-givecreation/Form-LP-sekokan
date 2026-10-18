@@ -285,7 +285,9 @@ footer p { margin: 0; }
   .match-result__count b { font-size: 2.1rem; }
   .match-result__count small { font-size: .75rem; }
   .field-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 10px; }
-  .field select { padding-right: 28px; padding-left: 10px; font-size: .82rem; }
+  /* iOS Safariの入力フォーカス時の自動ズームを防ぐ */
+  .field input, .field select { font-size: 16px; }
+  .field select { padding-right: 28px; padding-left: 10px; }
   .form-actions { position: sticky; bottom: 8px; z-index: 2; }
   .next-button, .back-button { min-height: 50px; }
   .next-button.is-submit { font-size: .78rem; letter-spacing: -.01em; }
